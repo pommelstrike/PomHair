@@ -8,18 +8,17 @@ The addon is currently in a private testing phase with known hair modders for qu
 
 🧪 **Quality Assurance in Progress:**  
 We're ensuring top-notch performance before public release. Stay tuned!
+# 🚧 Addon Status Update 🚧
 
 [![POMHair Preview](https://img.youtube.com/vi/mSBCoAbjg8s/0.jpg)](https://www.youtube.com/watch?v=mSBCoAbjg8s)
 
-# 🚧 Addon Status Update 🚧
-
-## Introduction Add-on User Guide
+## Add-on Introduction
 
 PomHair is a Blender add-on designed to apply vertex paint values to mesh objects, specifically tailored for creating or modifying haircard effects inspired by Baldur's Gate 3 (BG3) styles. It operates on selected faces or single UV islands in Edit Mode and creates vertex color paints for the RGB channels to control graying (red), thickness (green), and highlights (blue).
 
-The add-on provides several modes for generating these vertex colors, including gradients, underside effects, highlights, and randomized template-style variations. Additionally, it includes tools for cycling through scalp textures applied to meshes named with "scalp" in a specified directory.
+The add-on provides several modes for generating haircard vertex colors, including gradients blending, underside effects, highlights, and randomized template-style variations. Additionally, it includes tools for cycling through scalp textures applied to meshes named with "scalp" in a specified directory. 
 
-Ensure you are working on a mesh object in Blender version 4.1.1 or compatible.
+Ensure you are working on a mesh object in Blender version 4.1.1 or higher.
 
 ## Accessing the PomHair Panel
 
