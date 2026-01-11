@@ -1,12 +1,25 @@
-# PomHair Add-on User Guide
+# PomHair 
+#Special thanks to percy_verence for the UE5 Hair Rendering workflow contributions.
 
-## Introduction
+# 🚧 Addon Status Update 🚧
 
-PomHair is a Blender add-on designed to apply vertex paint values to mesh objects, specifically tailored for creating or modifying haircard effects inspired by Baldur's Gate 3 (BG3) styles. It operates on selected faces in Edit Mode and creates or modifies a vertex color attribute named "BG3Hair" on the mesh. This attribute uses RGB channels to control effects like graying (red), thickness (green), and highlights (blue).
+🔒 **Private Tester Phase:**  
+The addon is currently in a private testing phase with known hair modders for quality assurance review and refinement.  
+
+🧪 **Quality Assurance in Progress:**  
+We're ensuring top-notch performance before public release. Stay tuned!
+
+[![POMHair Preview](https://img.youtube.com/vi/mSBCoAbjg8s/0.jpg)](https://www.youtube.com/watch?v=mSBCoAbjg8s)
+
+# 🚧 Addon Status Update 🚧
+
+## Introduction Add-on User Guide
+
+PomHair is a Blender add-on designed to apply vertex paint values to mesh objects, specifically tailored for creating or modifying haircard effects inspired by Baldur's Gate 3 (BG3) styles. It operates on selected faces or single UV islands in Edit Mode and creates vertex color paints for the RGB channels to control graying (red), thickness (green), and highlights (blue).
 
 The add-on provides several modes for generating these vertex colors, including gradients, underside effects, highlights, and randomized template-style variations. Additionally, it includes tools for cycling through scalp textures applied to meshes named with "scalp" in a specified directory.
 
-This guide provides a detailed walkthrough of using the add-on's features. Ensure you are working on a mesh object in Blender version 4.1.1 or compatible.
+Ensure you are working on a mesh object in Blender version 4.1.1 or compatible.
 
 ## Accessing the PomHair Panel
 
@@ -152,5 +165,4 @@ The Scalp Texture subpanel allows cycling through texture files (e.g., _scalp.pn
 - Use Vertex Paint mode to manually tweak "BG3Hair" after applying.
 - Export painted meshes for use in BG3 or other engines supporting vertex colors.
 
-This guide covers core usage. Experiment with settings for custom hair effects!
  
