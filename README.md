@@ -1,5 +1,5 @@
 # PomHair 
- Special thanks to percy_verence for the UE5 Hair Rendering workflow and the WWE, InZOI & Moonglasses modding scene for contributions and welcoming kindness.
+ Special thanks to percy_verence for the UE5 Hair Rendering workflow and the Moonglasses, InZOI, CursedForge, Hogwarts Legacy & WWE modding scene for contributions and welcoming kindness.
 
 # 🚧 Addon Status Update 🚧
 
