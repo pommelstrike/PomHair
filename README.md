@@ -14,7 +14,7 @@ We're ensuring top-notch performance before public release. Stay tuned!
 
 ## Add-on Introduction
 
-PomHair is a Blender add-on designed to apply vertex paint values to mesh objects, specifically tailored for creating or modifying haircard effects inspired by Baldur's Gate 3 (BG3) styles. It operates on selected faces or single UV islands in Edit Mode and creates vertex color paints for the RGB channels to control graying (red), thickness (green), and highlights (blue).
+PomHair is a Blender add-on designed to automate the very redunant manual task of vertex painting to BG3 haircard meshes, optimzes and streamlines the creates vertex color paints for the RGB channels to control graying (red), thickness (green), and highlights (blue) It entire selected faces or single UV islands.
 
 The add-on provides several modes for generating haircard vertex colors, including gradients blending, underside effects, highlights, and randomized template-style variations. Additionally, it includes tools for cycling through scalp textures applied to meshes named with "scalp" in a specified directory. 
 
