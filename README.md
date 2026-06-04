@@ -12,6 +12,7 @@ Special thanks to percy_verence for the Unreal Engine Hair Rendering workflow an
 
 🔒 **Public Alpha Tester Phase:**
 The addon is currently in a **PUBLIC** Alphatest! Thank you KaNut and PseudoKociara!
+https://github.com/pommelstrike/PomHair/releases
 
 🧪 **Quality Assurance in Progress:**
 Please fill out issue if any problems
