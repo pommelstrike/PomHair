@@ -1,163 +1,234 @@
-# PomHair 
- Special thanks to percy_verence for the UE5 Hair Rendering workflow and the Moonglasses, InZOI, CursedForge, Hogwarts Legacy & WWE modding scene for contributions and welcoming kindness.
+# PomHair XL
+
+A Blender addon that applies Baldur's Gate 3–style vertex color painting to hair card and fur meshes, plus tools for selecting, weighting, and shaping hair cards.
+
+**Version:** 1.9.8 · **Blender:** 4.1.1+ · **Authors:** pommelstrike, percy_verence
+
+Special thanks to percy_verence for the Unreal Engine Hair Rendering workflow and the Moonglasses, InZOI, CursedForge, Hogwarts Legacy & WWE modding scene for contributions and welcoming kindness.
+
+---
 
 # 🚧 Addon Status Update 🚧
 
-🔒 **Private Tester Phase:**  
-The addon is currently in a private testing phase with known hair modders for quality assurance review and refinement.  
+🔒 **Public Alpha Tester Phase:**
+The addon is currently in a **PUBLIC** Alphatest! Thank you KaNut and PseudoKociara!
 
-🧪 **Quality Assurance in Progress:**  
-We're ensuring top-notch performance before public release. Stay tuned!
-# 🚧 Addon Status Update 🚧
+🧪 **Quality Assurance in Progress:**
+Please fill out issue if any problems
+
+---
 
 [![POMHair Preview](https://img.youtube.com/vi/mSBCoAbjg8s/0.jpg)](https://www.youtube.com/watch?v=mSBCoAbjg8s)
 
-## Add-on Introduction
+## Installation
 
-PomHair is a Blender add-on designed to automate the very redunant manual task of vertex painting to BG3 haircard meshes, optimzes and streamlines the creates vertex color paints for the RGB channels to control graying (red), thickness (green), and highlights (blue) It entire selected faces or single UV islands.
-
-The add-on provides several modes for generating haircard vertex colors, including gradients blending, underside effects, highlights, and randomized template-style variations. Additionally, it includes tools for cycling through scalp textures applied to meshes named with "scalp" in a specified directory. 
-
-Ensure you are working on a mesh object in Blender version 4.1.1 or higher.
+1. Download the addon `.zip` file (or clone this repository).
+2. Open Blender and go to **Edit → Preferences → Add-ons**.
+3. Click **Install…** and select the downloaded `.zip` file.
+4. Enable the addon by checking the checkbox next to **Object: PomHair**.
+5. In the 3D Viewport, open the sidebar (press **N**) and look for the **PomHair v1.9.8** tab.
 
 ## Accessing the PomHair Panel
 
-1. Open Blender and load or create a mesh object (e.g., a haircard mesh).
+1. Open Blender and load or create a mesh object (e.g., a hair card mesh).
 2. Switch to the **3D Viewport**.
 3. Open the **Sidebar** (press `N` if it's not visible).
-4. Navigate to the **PomHair** tab in the Sidebar. This is where the main controls are located.
+4. Navigate to the **PomHair v1.9.8** tab in the Sidebar.
 
-The panel includes:
-- The **Apply PomHair** button, which opens a dialog for configuring and applying vertex paints.
-- A **Scalp Texture** subpanel for managing scalp textures (detailed later).
+---
 
-## Applying PomHair Vertex Paints: Step-by-Step Walkthrough
+## Apply PomHair (Vertex Paint)
 
-PomHair applies vertex colors to selected faces on a hair card mesh. It requires the object to be in **Edit Mode** with faces selected. 
+Paints vertex colors onto selected hair card faces. The colors are stored in a color attribute layer called `POMHAIR` be sure to have that active in your blend file a export.
 
-### Prerequisites
-- Select your mesh object.
-- Enter **Edit Mode** (`Tab` key).
-- Select the faces you want to paint (e.g., using Face Select mode or press "L" to single select UV islands for targeted areas). If no faces are selected, the operator will warn you and cancel.
+**Requires:** Edit Mode with faces selected to begin activation.
 
-### Step 1: Open the Apply PomHair Dialog
-- In the PomHair panel, click **Apply PomHair**.
-- This opens a popup dialog with configuration options.
+### Modes
 
-### Step 2: Configure the Mode
-Choose a **Mode** from the dropdown. Each mode determines how the base intensity (used for the selected effect) is calculated across the selected faces. Here's a breakdown of each:
+| Mode | Description |
+|------|-------------|
+| **Linear Gradient** | Paints a gradient along a chosen world axis (X, Y, or Z). |
+| **UV Root to Tip Gradient** | Paints a gradient based on the UV V coordinate — root at the bottom, tip at the top. Most common mode for hair cards. |
+| **Underside Thickness** | Paints based on how much a vertex normal faces downward. Adds thickness to the underside of hair. |
+| **Strand Highlights** | Paints based on how much a vertex normal faces sideways. Great for edge highlights along strands. |
+| **PomCluster Variations** | Randomizes vertex color per connected island of faces, giving each hair card a unique color — mimics the dynamic look of in-game BG3 hair. Recommended to apply this first before targeting specific areas. |
 
-- **Linear Gradient**: Creates a gradient based on vertex positions along a chosen axis (e.g., from bottom to top).
-  - Useful for simple root-to-tip transitions on aligned geometry.
-- **UV Root to Tip Gradient**: Uses the active UV map's V axis for the gradient blend root to tip.
-  - Requires an active UV layer; if missing, the operator will warn and cancel.
-  - Ideal for unwrapped hair strands where UVs map root-to-tip.
-- **Underside Thickness**: Bases intensity on the downward-facing normal
-  - Higher values on undersides, simulating thickness or shadowing.
-- **Strand Highlights**: Bases intensity on the absolute vertical normal
-  - Higher values on side-facing surfaces, for strand/flyaways highlights.
-- **PomCluster Style Variations**: Generates per-UV island values, mimicing clustered hair variations found in-game BG3 hairstyles. **Recommended to apply this first prior to doing target areas**
-  - Islands are automatically detected as connected selected faces.
-  - No gradient or axis options apply here; it's for variation across groups.
+### Effect Channels
 
-### Step 3: Configure Mode-Specific Settings
-Depending on the mode, adjust these:
+Each effect paints into a specific color channel:
 
-- **Linear Gradient Modifers** (for Linear Gradient only): Choose X, Y, or Z axis for the position-based gradient.
-  - Example: Use Z for vertical hair (bottom to top).
-- **Invert Gradient** (for Linear/UV Gradient): Flip the gradient direction (e.g., tip-to-root instead of root-to-tip).
-- **Gradient Steps** (for Linear/UV Gradient): Number of discrete steps (1-10). 1 is smooth; higher values create banded/stepped effects.
+| Effect                | Channel | Purpose                                            |
+| -----------------------| ---------| ----------------------------------------------------|
+| **None (Black)**      | —       | Clears / paints black.                             |
+| **Graying (Red)**     | R       | Controls where overhair influence on slider in CC. |
+| **Thickness (Green)** | G       | Controls hair strand thickness variation.          |
+| **Highlights (Blue)** | B       | Controls where highlight appearance.               |
 
-For **PomCluster Style Modifers**:
-- **Brightness (Template Mode)**: Scales base random values (0-2.0). Higher brightens overall.
-- **Contrast (Template Mode)**: Adjusts contrast around mid-tone (0-2.0). Higher increases variation.
+### Settings
 
-### Step 4: Choose the Effect
-Select an **Effect** to determine which RGB channel receives the intensity:
-- **None (Black)**: Sets the channel to 0 (no effect, black).
-- **Graying (Red)**: Applies to red channel for graying.
-- **Thickness (Green)**: Applies to green for thickness.
-- **Highlights (Blue)**: Applies to blue for highlight.
+- **Gradient Axis** — Which world axis to use for Linear Gradient mode (X, Y, or Z).
+- **Invert Gradient** — Flips the gradient direction.
+- **Gradient Steps** — Quantizes the gradient into discrete steps (1 = smooth, higher = banded). Only for Linear and UV Gradient modes.
+- **Graying / Thickness / Highlights Brightness Intensity** — Multipliers for each color channel (0–4.0).
+- **Brightness / Contrast** (PomCluster) — Overall brightness and contrast of the random colors per island.
+- **Preview in Vertex Paint** — Automatically switches to Vertex Paint mode after applying so you can see the result.
 
-### Step 5: Adjust Intensity Multipliers
-These scale the base intensity for the chosen effect (0-4.0):
-- **Graying Brightness Intensity**: Multiplies red.
-- **Thickness Brightness Intensity**: Multiplies green.
-- **Highlights Brightness Intensity**: Multiplies blue.
-- Example: Set Graying to 2.0 for stronger graying at the tips in a gradient mode.
+### Quick Start: Root-to-Tip Graying Gradient
 
-Unused channels are set to 0.
-
-### Step 6: Preview Option
-- **Preview in Vertex Paint**: Enabled by default. After applying, switches to Vertex Paint mode and sets "BG3Hair" as the active color attribute for immediate visual feedback.
-  - Disable if you prefer to stay in Edit Mode.
-
-### Step 7: Execute the Operator
-- Click **OK** in the dialog.
-- The add-on processes selected faces:
-  - For gradients: Normalizes positions or UVs to 0-1, applies steps/invert if set.
-  - For underside/highlights: Uses vertex normals.
-  - For PomCluster: Detects islands, assigns random bases, applies brightness/contrast.
-- If successful, you'll see the vertex colors applied. In Preview mode, switch to Vertex Paint to view (colors may appear in grayscale initially; use viewport shading to see RGB).
-
-### Example Walkthrough: Applying a Root-to-Tip Graying Gradient
-1. Select a hair mesh, enter Edit Mode, select all faces (`A`).
+1. Select a hair mesh, enter Edit Mode, select faces (`A`).
 2. Click **Apply PomHair**.
 3. Set Mode to **UV Root to Tip Gradient**.
-4. Uncheck **Invert Gradient** (root=low, tip=high).
-5. Set Gradient Steps to 1 (smooth).
-6. Set Effect to **Graying (Red)**.
-7. Set Graying Brightness Intensity to 1.5.
-8. Ensure Preview is checked.
-9. Click OK.
-10. Blender switches to Vertex Paint; red is painted from root to tip.
+4. Set Effect to **Graying (Red)**.
+5. Set Graying Brightness Intensity to 1.5.
+6. Click **OK**.
 
 ### Troubleshooting
-- **No Faces Selected**: Select faces in Edit Mode.
-- **No UV Layer**: Add/activate a UV map for UV Gradient.
-- **Unexpected Colors**: Check normals (recalculate with `Ctrl+N`) or fix yo UV orientation!.
-- Undo with `Ctrl+Z` 
 
-## Managing Scalp Textures: Step-by-Step Walkthrough
+- **No Faces Selected** — Select faces in Edit Mode first.
+- **No UV Layer** — Add/activate a UV map for UV Gradient mode.
+- **Unexpected Colors** — Recalculate normals (`Ctrl+N`) or fix UV orientation.
+- Undo with `Ctrl+Z`.
 
-The Scalp Texture subpanel allows cycling through texture files (e.g., _scalp.png, _scalp.dds, _scalp.tga) in a directory. It applies them to a material named "PomHair_Scalp" on meshes with "scalp" in their name (case-insensitive), within the current collection.
+---
+
+## Scalp Texture Cycling
+> ⚠️ **This operator does not work yet.** It requires a material library that has not been added to the addon at this time.
+Browse and apply scalp texture files from disk to scalp meshes in your scene.
+
+- **Scalp Path** — Set the folder containing scalp textures. Looks for files ending in `_scalp.png`, `_scalp.dds`, or `_scalp.tga`.
+- **◀ / ▶ arrows** — Cycle backward and forward through textures.
 
 ### Prerequisites
-- Have scalp meshes in your scene (e.g., named "Scalp_Mesh").
-- Assign the "PomHair_Scalp" material to them (create if missing, with an Image Texture node).
-- Textures must be in the specified path.
 
-### Step 1: Set the Scalp Path
-- In the PomHair panel, under Scalp Texture, find the **Scalp Path** field.
-- Enter or browse to a directory containing scalp textures (e.g., "C:\MyTextures\Scalps").
-- The add-on scans for files ending in _scalp.png/dds/tga.
-
-### Step 2: View Current Texture
-- The top row displays the current texture name (e.g., "human_scalp.png") or "None" if none loaded.
-
-### Step 3: Cycle Textures
-- Use the arrow buttons:
-  - **Left Arrow** (`<` icon): Cycles backward.
-  - **Right Arrow** (`>` icon): Cycles forward.
-- Clicking loads the next/previous texture if not already in Blender, applies it to the Image Texture node in "PomHair_Scalp", and updates all matching scalp meshes.
-- The display updates to show the new texture name.
-
-### Example Walkthrough: Cycling Scalp Textures
-1. Set Scalp Path to a folder with 3 textures: scalp1.png, scalp2.dds, scalp3.tga.
-2. Ensure scalp meshes use "PomHair_Scalp" material with an Image Texture node.
-3. Select Scalp
-3. Click Right Arrow: Loads and applies scalp1.png, displays "scalp1.png".
-4. Click Right Arrow again: Switches to scalp2.dds.
-5. Click Left Arrow: Returns to scalp1.png.
+- Scalp meshes must have "scalp" in their name (case-insensitive).
+- They must use a material named **PomHair_Scalp** with an Image Texture node.
 
 ### Troubleshooting
-- **No Textures Found**: Check path validity and file extensions.
-- **No Scalp Meshes**: Name meshes with "scalp" and assign "PomHair_Scalp".
-- **Material Missing**: Create "PomHair_Scalp" with a PomScalp Material and Image Texture node connected to Base Color.
-- Textures wrap around at list ends.
+
+- **No Textures Found** — Check the path and file extensions.
+- **No Scalp Meshes** — Name meshes with "scalp" and assign the PomHair_Scalp material.
+- **Material Missing** — Create a PomHair_Scalp material with an Image Texture node connected to Base Color.
+
+---
+
+## Scalp Proximity Select
+
+Selects faces on your hair card mesh that are close to a separate scalp mesh object — useful for quickly grabbing the root portions of hair cards.
+
+- **Scalp Object** — Pick the mesh that represents the scalp/head.
+- **Distance Threshold** — How close a face must be to the scalp to get selected.
+- **Mode** — **Proximity** selects only faces within the distance threshold. **Whole Island** selects the entire connected hair card if any vertex is near the scalp.
+
+---
+
+## UV Island Selection
+
+Expands a partial face selection to complete UV islands. Select a few faces of a hair card and this operator selects the whole thing.
+
+**Requires:** Edit Mode with some faces selected
+
+### Expand Modes
+
+After completing the initially selected islands, optionally find and select additional nearby islands:
+
+| Mode | Description |
+|------|-------------|
+| **None** | Only completes partially selected UV islands. |
+| **+X / +Y / +Z Axis** | Also selects nearby islands aligned along the chosen world axis, facing the same direction, within a distance. |
+| **UV BBox + 3D Proximity** | Also selects islands with overlapping UV bounding boxes that are within a 3D distance. |
+
+### Settings
+
+- **Expand Distance** — Maximum 3D distance for expansion.
+- **Angle Threshold** — (Axis modes) Maximum angle between island normals.
+- **UV Overlap Margin** — (UV Overlap mode) Extra padding on UV bounding boxes before checking overlap.
+
+---
+
+## Weight Gradient
+
+Generates a vertex weight gradient along hair cards based on UV coordinates. Weights go from full (1.0) at the root to zero (0.0) at the tip (or vice versa). Useful for driving armature deformations, shape keys, or shader effects.
+
+**Requires:** Weight Paint Mode
+
+- **UV Axis** — **V (Root→Tip)** for standard hair cards, or **U (Across)** for across the card width.
+- **Gradient Falloff** — Controls the curve shape. Negative = ease-in, positive = ease-out, zero = linear.
+- **Invert** — Flips the gradient (tip = 1.0, root = 0.0).
+- **Create New Group** — Creates a new vertex group instead of painting into the active one.
+- **Group Name** — Name for the new vertex group.
+
+---
+
+## Auto Weight from Armature
+
+Parents the hair card mesh to an armature with automatic weights, then optionally cleans up the result with post-processing.
+
+**Requires:** Object Mode
+
+- **Armature** — Pick the armature to parent to.
+
+### Post-Processing
+
+| Option | Description |
+|--------|-------------|
+| **Clear Roots** | Removes weights from vertices near the scalp so roots stay attached to the head. Uses the Scalp Object if set, otherwise falls back to UV V coordinate. |
+| **Smooth Weights** | Averages vertex weights for smoother deformations. Adjustable factor, iterations, and expand/contract. |
+| **Tweak Levels** | Adjusts all weights with offset (add) and gain (multiply), like an image levels adjustment. |
+
+---
+
+## Sample Weights from Target
+
+Transfers vertex weights from a target mesh (e.g., a character body) onto the hair card mesh.
+
+**Requires:** Object Mode
+
+- **Target Mesh** — The mesh to copy weights from (must have vertex groups).
+
+### Methods
+
+| Method | Description |
+|--------|-------------|
+| **Nearest Vertex** | For each hair vertex, finds the closest point on the target and copies weights. Per-vertex precision. |
+| **Root Center** | Samples weights at each hair card's root center and applies uniformly to the whole card. Good for rigid cards. |
+| **Projected (Data Transfer)** | Uses Blender's Data Transfer modifier for projection-based sampling. Best for meshes that wrap around the target. |
+
+---
+
+## Hair Card Shaping
+
+Tools for bending, straightening, and randomizing hair card geometry. All work on selected faces in Edit Mode.
+
+### Straighten Edge Loops
+
+Straightens the long edge loops of hair cards. Each UV island is analyzed and vertices along each column (root to tip) are aligned.
+
+- **Method** — **Line** projects vertices onto a straight line from first to last. **Smooth** applies Laplacian smoothing over multiple passes.
+- **Strength** — How much to straighten (0 = no change, 1 = fully straight).
+- **Iterations** — (Smooth only) Number of smoothing passes.
+
+### Auto S-Curve
+
+Applies S-curve bend to hair cards for natural wavy shapes.
+
+- **Strength** — How far to displace vertices.
+- **Number of Curves** — How many S-curves along the hair card length (1 = gentle wave, higher = tighter ripples).
+- **Bend Direction** — **In-Plane (Snake)** bends sideways within the card's own plane. **Out-of-Plane (Wave)** bends perpendicular to the card surface.
+- **Profile** — **Sine (Smooth)** for rounded curves, **Sharp (Triangle)** for angular bends.
+
+### Jitter Hair Cards
+
+Randomizes duplicated hair cards with position offsets and per-vertex strand noise for natural volume and variation.
+
+- **Seed** — Random seed for reproducible results.
+- **Position Offset** — Moves each card as a whole. Set the **Amount** and direction (**Normal Only** for volume/lift, **Width Only** for spread, **Normal + Width** for both).
+- **Strand Noise** — Adds wavy per-vertex displacement. Control **Amount** and **Frequency** (how many bumps along the strand).
+- **Pin Roots** — Keeps root vertices in place so hair stays attached to the scalp. **Pin Ratio** controls what fraction of the strand is pinned.
+
+---
 
 ## Best Practices
+
 - Work on duplicated meshes to test non-destructively.
-- Combine modes by running the operator multiple times with different effects (e.g., graying gradient + thickness underside).
-- Use Vertex Paint mode to manually tweak "BG3Hair" after applying, lowkey nahh
- 
+- Combine modes by running Apply PomHair multiple times with different effects (e.g., graying gradient + thickness underside).
+- Apply PomCluster Variations first, then target specific areas with gradient or directional modes.
